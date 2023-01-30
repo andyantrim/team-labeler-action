@@ -1,4 +1,5 @@
 import * as github from '@actions/github'
+import * as core from '@actions/core'
 import * as yaml from 'js-yaml'
 
 export function getPrNumber(): number | undefined {
@@ -21,10 +22,9 @@ export function getPrAuthor(): string | undefined {
 
 export async function getLabelsConfiguration(
   client: github.GitHub,
-  configurationPath: string
+  configurationPath: string,
   teamsRepo: string
 ): Promise<Map<string, string[]>> {
-    
   core.info('Getting config')
   const configurationContent: string = await fetchContent(
     client,
@@ -37,26 +37,17 @@ export async function getLabelsConfiguration(
 
 async function fetchContent(
   client: github.GitHub,
-  repoPath: string
+  repoPath: string,
   teamsRepo: string
 ): Promise<string> {
-  repo = github.context.repo.repo;
-  sha = github.context.sha
+  let repo = github.context.repo.repo
   if (teamsRepo === '') {
-     repo = teamsRepo
-     sha = undefined
+    repo = teamsRepo
   }
-  core.info('Looking for repo')
-  core.info(teamsRepo)
-  core.info('Looking for path')
-  core.info(repoPath)
-  core.info('With SHA')
-  core.info(sha)
   const response = await client.repos.getContents({
     owner: github.context.repo.owner,
-    repo: repo,
-    path: repoPath,
-    ref: sha
+    repo,
+    path: repoPath
   })
 
   if (
@@ -86,7 +77,6 @@ function getLabelGlobMapFromObject(configObject: any): Map<string, string[]> {
 }
 
 export function createClient(token: string): github.GitHub {
-  core.Info('New client')
   return new github.GitHub(token)
 }
 

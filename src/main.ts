@@ -30,10 +30,8 @@ async function run() {
     }
 
     const client = createClient(token)
-    const labelsConfiguration: Map<
-      string,
-      string[]
-    > = await getLabelsConfiguration(client, configPath, teamsRepo)
+    const labelsConfiguration: Map<string, string[]> =
+      await getLabelsConfiguration(client, configPath, teamsRepo)
 
     const labels: string[] = getTeamLabel(labelsConfiguration, `@${author}`)
 
