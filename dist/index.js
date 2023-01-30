@@ -12336,8 +12336,10 @@ exports.getLabelsConfiguration = getLabelsConfiguration;
 function fetchContent(client, repoPath, teamsRepo) {
     return __awaiter(this, void 0, void 0, function* () {
         let repo = github.context.repo.repo;
+        core.warning(repo);
         let sha = github.context.sha;
         if (teamsRepo === '') {
+            core.warning('Setting custom repo and branch to main');
             repo = teamsRepo;
             sha = 'main';
         }
