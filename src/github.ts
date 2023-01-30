@@ -42,7 +42,7 @@ async function fetchContent(
 ): Promise<string> {
   repo = github.context.repo.repo;
   sha = github.context.sha
-  if (teamsRepo === "") {
+  if (teamsRepo === '') {
      repo = teamsRepo
      sha = undefined
   }
