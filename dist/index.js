@@ -12338,7 +12338,7 @@ function fetchContent(client, repoPath, teamsRepo) {
         let repo = github.context.repo.repo;
         core.warning(repo);
         let sha = github.context.sha;
-        if (teamsRepo === '') {
+        if (teamsRepo !== '') {
             core.warning('Setting custom repo and branch to main');
             repo = teamsRepo;
             sha = 'main';
