@@ -12336,13 +12336,16 @@ exports.getLabelsConfiguration = getLabelsConfiguration;
 function fetchContent(client, repoPath, teamsRepo) {
     return __awaiter(this, void 0, void 0, function* () {
         let repo = github.context.repo.repo;
+        let sha = github.context.sha;
         if (teamsRepo === '') {
             repo = teamsRepo;
+            sha = 'main';
         }
         const response = yield client.repos.getContents({
             owner: github.context.repo.owner,
             repo,
-            path: repoPath
+            path: repoPath,
+            ref: sha
         });
         if (!Array.isArray(response.data) &&
             typeof response.data === 'object' &&

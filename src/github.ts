@@ -41,13 +41,17 @@ async function fetchContent(
   teamsRepo: string
 ): Promise<string> {
   let repo = github.context.repo.repo
+  let sha = github.context.sha
   if (teamsRepo === '') {
     repo = teamsRepo
+    sha = 'main'
   }
+
   const response = await client.repos.getContents({
     owner: github.context.repo.owner,
     repo,
-    path: repoPath
+    path: repoPath,
+    ref: sha
   })
 
   if (
