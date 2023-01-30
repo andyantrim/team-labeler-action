@@ -12,6 +12,7 @@ async function run() {
   try {
     const token = core.getInput('repo-token', {required: true})
     const configPath = core.getInput('configuration-path', {required: true})
+    const teamsRepo = core.getInput('teams-repo', {required: false})
 
     const prNumber = getPrNumber()
     if (!prNumber) {

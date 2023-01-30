@@ -22,10 +22,12 @@ export function getPrAuthor(): string | undefined {
 export async function getLabelsConfiguration(
   client: github.GitHub,
   configurationPath: string
+  teamsRepo: string
 ): Promise<Map<string, string[]>> {
   const configurationContent: string = await fetchContent(
     client,
-    configurationPath
+    configurationPath,
+    teamsRepo
   )
   const configObject: any = yaml.safeLoad(configurationContent)
   return getLabelGlobMapFromObject(configObject)
@@ -34,10 +36,15 @@ export async function getLabelsConfiguration(
 async function fetchContent(
   client: github.GitHub,
   repoPath: string
+  teamsRepo: string
 ): Promise<string> {
+  repo = github.context.repo.repo;
+  if (teamsRepo === "") {
+     repo = teamsRepo
+  }
   const response = await client.repos.getContents({
     owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
+    repo: repo,
     path: repoPath,
     ref: github.context.sha
   })
