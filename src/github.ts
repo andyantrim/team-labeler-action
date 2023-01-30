@@ -24,6 +24,8 @@ export async function getLabelsConfiguration(
   configurationPath: string
   teamsRepo: string
 ): Promise<Map<string, string[]>> {
+    
+  core.info('Getting config')
   const configurationContent: string = await fetchContent(
     client,
     configurationPath,
@@ -44,10 +46,12 @@ async function fetchContent(
      repo = teamsRepo
      sha = undefined
   }
-  core.debug("Looking for repo ")
-  core.debug(teamsRepo)
-  core.debug("Looking for path")
-  core.debug(repoPath)
+  core.info('Looking for repo')
+  core.info(teamsRepo)
+  core.info('Looking for path')
+  core.info(repoPath)
+  core.info('With SHA')
+  core.info(sha)
   const response = await client.repos.getContents({
     owner: github.context.repo.owner,
     repo: repo,
@@ -82,6 +86,7 @@ function getLabelGlobMapFromObject(configObject: any): Map<string, string[]> {
 }
 
 export function createClient(token: string): github.GitHub {
+  core.Info('New client')
   return new github.GitHub(token)
 }
 
